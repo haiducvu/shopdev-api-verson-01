@@ -24,6 +24,12 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+
+        # Add this step to create .env file before npm ci
+    - name: Create .env file
+      run: |
+        touch .env
+        echo "PORT=${{ secrets.PORT }}" >> .env  
     - run: npm ci
     - run: pm2 restart server
 
